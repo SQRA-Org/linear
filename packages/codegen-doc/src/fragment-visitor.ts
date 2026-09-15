@@ -74,7 +74,9 @@ export class FragmentVisitor {
     /** Join all string definitions */
     leave: (node: DocumentNode): string => {
       return printLines(
-        (node.definitions ?? []).map(definition => (typeof definition === "string" ? definition : ``)).sort()
+        (node.definitions ?? [])
+          .map(definition => (typeof definition === "string" ? definition : ``))
+          .sort((a, b) => a.localeCompare(b))
       );
     },
   };
