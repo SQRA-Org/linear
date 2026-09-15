@@ -1,5 +1,20 @@
 import * as React from "react";
 
+const TRUSTED_LINEAR_HOSTS = ["uploads.linear.app"];
+
+function isTrustedLinearUrl(candidate: string | undefined): boolean {
+  if (!candidate) {
+    return false;
+  }
+
+  try {
+    const parsed = new URL(candidate);
+    return parsed.protocol === "https:" && TRUSTED_LINEAR_HOSTS.includes(parsed.hostname);
+  } catch {
+    return false;
+  }
+}
+
 export default function Page(): JSX.Element {
   const [url, setUrl] = React.useState<string>();
   const [error, setError] = React.useState<string>();
@@ -35,14 +50,16 @@ export default function Page(): JSX.Element {
         }}
       />
 
-      {url && (
+      {url && isTrustedLinearUrl(url) && (
         <p>
           Success! File is uploaded to this URL:{" "}
-          <a href={url} target="_blank">
+          <a href={url} target="_blank" rel="noopener noreferrer">
             {url}
           </a>
         </p>
       )}
+
+      {url && !isTrustedLinearUrl(url) && <p>Received an untrusted upload URL</p>}
 
       {error && (
         <pre>
