@@ -3,6 +3,7 @@ import { GraphQLFileLoader } from "@graphql-tools/graphql-file-loader";
 import { loadSchema } from "@graphql-tools/load";
 import { UrlLoader } from "@graphql-tools/url-loader";
 import { logger, printLines } from "@linear/codegen-doc";
+import crypto from "crypto";
 import { writeFile } from "fs";
 import path from "path";
 import { promisify } from "util";
@@ -19,7 +20,7 @@ const criticalityToSemver = {
   [CriticalityLevel.NonBreaking]: "patch",
 };
 
-const filename = path.resolve(`../../.changeset/_generated_schema_${Math.ceil(Math.random() * 100000000)}.md`);
+const filename = path.resolve(`../../.changeset/_generated_schema_${crypto.randomInt(100000000)}.md`);
 
 const changeset = (criticality: CriticalityLevel) =>
   printLines(["---", `"@linear/sdk": ${criticalityToSemver[criticality]}`, "---"]);

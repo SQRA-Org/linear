@@ -58,13 +58,7 @@ export function reduceNonNullType(
     ? undefined
     : type.kind === Kind.NON_NULL_TYPE
       ? reduceTypeName(type.type)
-      : type.kind === Kind.NAMED_TYPE
-        ? undefined
-        : type.kind === Kind.NAME
-          ? undefined
-          : type.kind === Kind.LIST_TYPE
-            ? undefined
-            : undefined;
+      : undefined;
 }
 
 /**
