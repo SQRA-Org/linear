@@ -29,7 +29,7 @@ module.exports = function CODE_SECTION({ options, srcPath }) {
   }
 
   // trim leading and trailing spaces/line breaks in code
-  code = code.replace(/^\s+|\s+$/g, "");
+  code = code.trim();
 
   const lines = code.split("\n");
 
