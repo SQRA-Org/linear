@@ -61,7 +61,7 @@ export function printComment(lines: (string | undefined)[]): string {
   const parsed = lines
     .filter(line => line && line !== "")
     .reduce((prev, line) => [...prev, ...(line as string).split("\n")], [] as string[])
-    .map(line => line.replace(/\*\//g, "* /"));
+    .map(line => line.replaceAll("*/", "* /"));
 
   return parsed.length > 1 ? printLines(["/**", ...parsed.map(line => ` * ${line}`), " */"]) : `/** ${parsed[0]} */`;
 }
