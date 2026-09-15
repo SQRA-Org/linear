@@ -1,5 +1,16 @@
 import * as React from "react";
 
+const TRUSTED_UPLOAD_HOSTS = ["uploads.linear.app"];
+
+function isTrustedLinearAssetUrl(candidate: string): boolean {
+  try {
+    const parsed = new URL(candidate);
+    return parsed.protocol === "https:" && TRUSTED_UPLOAD_HOSTS.includes(parsed.hostname.toLowerCase());
+  } catch {
+    return false;
+  }
+}
+
 export default function Page(): JSX.Element {
   const [url, setUrl] = React.useState<string>();
   const [error, setError] = React.useState<string>();
@@ -25,7 +36,11 @@ export default function Page(): JSX.Element {
           const json = await result.json();
 
           if (result.ok) {
-            setUrl(json.url);
+            if (isTrustedLinearAssetUrl(json.url)) {
+              setUrl(json.url);
+            } else {
+              setError("Received an untrusted upload URL");
+            }
           } else {
             setError(JSON.stringify(json.error, null, 2));
           }
