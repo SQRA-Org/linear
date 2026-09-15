@@ -95,7 +95,7 @@ export class FragmentVisitor {
           printGraphqlDebug(node),
           `fragment ${node.name} on ${node.name} {
             __typename
-            ${printLines(node.fields.sort())}
+            ${printLines(node.fields.sort((a, b) => a.localeCompare(b)))}
           }`,
           " ",
         ]);
@@ -118,7 +118,7 @@ export class FragmentVisitor {
         printGraphqlDebug(node),
         `fragment ${node.name} on ${node.name} {
           __typename
-          ${printLines(node.fields.sort())}
+          ${printLines(node.fields.sort((a, b) => a.localeCompare(b)))}
             ${(
               this._context.interfaceImplementations[node.name]
                 ?.filter(
@@ -164,7 +164,7 @@ export class FragmentVisitor {
         if (query) {
           const queryRequiredArgs = getRequiredArgs(query.arguments)
             .map(arg => arg.name.value)
-            .sort();
+            .sort((a, b) => a.localeCompare(b));
 
           // If the query has 0 required args, check if it has an optional id arg
           if (!queryRequiredArgs.length) {
