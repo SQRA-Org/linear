@@ -97,7 +97,7 @@ export class FragmentVisitor {
           printGraphqlDebug(node),
           `fragment ${node.name} on ${node.name} {
             __typename
-            ${printLines(node.fields.sort((a, b) => a.localeCompare(b)))}
+            ${printLines(node.fields.toSorted((a, b) => a.localeCompare(b)))}
           }`,
           " ",
         ]);
