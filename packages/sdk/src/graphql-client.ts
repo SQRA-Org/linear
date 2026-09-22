@@ -14,10 +14,7 @@ export class GraphQLClientError<Data, Variables extends Record<string, unknown>>
   public request: GraphQLRequestContext<Variables>;
 
   public constructor(response: LinearRawResponse<Data>, request: GraphQLRequestContext<Variables>) {
-    const message = `${GraphQLClientError.extractMessage(response)}: ${JSON.stringify({
-      response,
-      request,
-    })}`;
+    const message = GraphQLClientError.extractMessage(response);
 
     super(message);
 
